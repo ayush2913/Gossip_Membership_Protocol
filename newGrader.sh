@@ -8,7 +8,7 @@
 #***********************
 #!/bin/sh
 
-function contains () {
+function contains() {
   	local e
   	for e in "${@:2}"
 	do 

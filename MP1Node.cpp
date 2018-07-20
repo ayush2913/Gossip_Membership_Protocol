@@ -275,7 +275,7 @@ Address* MP1Node::addMember(int id, short port, long heartbeat, long timestamp){
 bool MP1Node::updateMember(int id, short port, long heartbeat){
     for (vector<MemberListEntry>::iterator it = memberNode->memberList.begin(); it != memberNode->memberList.end(); ++it) {
         if(it->id == id && it->port == port){
-            it->setheartbeat = heartbeat;
+            it->heartbeat = heartbeat;
             it->timestamp = memberNode->timeOutCounter;
             return true;
         }
@@ -297,14 +297,13 @@ void MP1Node::nodeLoopOps() {
 	/*
 	 * Your code goes here
 	 */
-
+    Address dstAddr;
     if(memberNode->pingCounter == 0)
     {
         // Increment number of heartbeats
         memberNode->heartbeat++;
         
         // Send heartbeat messages to all nodes
-        Address dstAddr;
         std::random_shuffle ( memberNode->memberList.begin(), memberNode->memberList.end() );
         for (int i = 0; i<memberNode->memberList.size() && i < 3; ++i) {
             dstAddr = getAddress(memberNode->memberList[i].id, memberNode->memberList[i].port);
